@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="DataAccess\" />
-    <Folder Include="Domain\" />
   </ItemGroup>
 
 </Project>

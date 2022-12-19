@@ -1,3 +1,5 @@
+using BinanceWebSocketTask.Web;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +8,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton(new PriceCollectorUseCase(new WebSocketAdapter(new Uri("wss://stream.binance.com:443/stream?streams=btcusdt@aggTrade"))));
 
 var app = builder.Build();
 
