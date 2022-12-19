@@ -6,9 +6,26 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Scripts\InsertAggregateTradeStreamPayload.sql" />
+    <None Remove="Scripts\SelectSymbolData.sql" />
+  </ItemGroup>
+
 
   <ItemGroup>
-    <Compile Include="CreateDatabase.sql" />
+    <EmbeddedResource Include="Scripts\CreateTables.sql" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\InsertAggregateTradeStreamPayload.sql" />
+    <EmbeddedResource Include="Scripts\SelectSymbolData.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Dapper.SqlBuilder" Version="2.0.78" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
   <ItemGroup>

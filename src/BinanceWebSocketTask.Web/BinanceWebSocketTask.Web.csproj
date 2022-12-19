@@ -17,10 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\BinanceWebSocketTask.DataAccess\BinanceWebSocketTask.DataAccess.csproj" />
     <ProjectReference Include="..\BinanceWebSocketTask.Domain\BinanceWebSocketTask.Domain.csproj" />
   </ItemGroup>
 
