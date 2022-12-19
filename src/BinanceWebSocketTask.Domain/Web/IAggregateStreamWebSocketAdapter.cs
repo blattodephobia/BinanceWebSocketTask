@@ -2,7 +2,7 @@
 
 namespace BinanceWebSocketTask.Web
 {
-    public interface IWebSocketAdapter : IDisposable
+    public interface IAggregateStreamWebSocketAdapter : IDisposable
     {
         Task Start();
         event Action<AggregateTradeStreamPayload> OnPayloadReceived;

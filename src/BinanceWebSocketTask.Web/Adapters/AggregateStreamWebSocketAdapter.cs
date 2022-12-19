@@ -1,19 +1,23 @@
 ﻿using BinanceWebSocketTask.Web.Dto;
 using BinanceWebSocketTask.Web.Mappers;
 using Newtonsoft.Json;
+using System.Net.WebSockets;
 using Websocket.Client;
 
-namespace BinanceWebSocketTask.Web
+namespace BinanceWebSocketTask.Web.Adapters
 {
-    public class WebSocketAdapter : IWebSocketAdapter
+    public class AggregateStreamWebSocketAdapter : IAggregateStreamWebSocketAdapter
     {
         private readonly WebsocketClient _client;
 
-        public WebSocketAdapter(Uri streamEndpoint)
+        public AggregateStreamWebSocketAdapter(Uri streamEndpoint, string symbol)
         {
-            _client = new WebsocketClient(streamEndpoint);
+            _client = new WebsocketClient(new Uri(streamEndpoint, $"/stream?streams={symbol}@aggTrade"));
             _client.MessageReceived.Subscribe(OnMessageReceived);
+            Symbol = symbol;
         }
+
+        public string Symbol { get; }
 
         public event Action<AggregateTradeStreamPayload>? OnPayloadReceived;
 
@@ -25,21 +29,12 @@ namespace BinanceWebSocketTask.Web
         public async Task Start()
         {
             await _client.Start();
-            _client.Send(@"
-{
-  ""method:"": ""SUBSCRIBE"",
-  ""params"": [
-    ""btcusdt@aggTrade"",
-    ""btcusdt@depth""
-  ],
-  ""id"": 1
-}
-");
+            _client.Send(JsonConvert.SerializeObject(new BinanceAggregateStreamSubscriptionMessage(Symbol)));
         }
 
         public async Task Stop()
         {
-            await _client.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, string.Empty);
+            await _client.Stop(WebSocketCloseStatus.NormalClosure, string.Empty);
         }
 
         private void OnMessageReceived(ResponseMessage msg)

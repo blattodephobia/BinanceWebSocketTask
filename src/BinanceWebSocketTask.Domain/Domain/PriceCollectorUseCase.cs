@@ -5,9 +5,9 @@ namespace BinanceWebSocketTask.Domain
     public class PriceCollectorUseCase : IDisposable
     {
         private readonly List<AggregateTradeStreamPayload> _collectedData = new List<AggregateTradeStreamPayload>();
-        private readonly IWebSocketAdapter _webSocketInterface;
+        private readonly IAggregateStreamWebSocketAdapter _webSocketInterface;
 
-        public PriceCollectorUseCase(IWebSocketAdapter webSocketInterface)
+        public PriceCollectorUseCase(IAggregateStreamWebSocketAdapter webSocketInterface)
         {
             _webSocketInterface = webSocketInterface;
             _webSocketInterface.OnPayloadReceived += WebSocketInterface_OnPayloadReceived;
